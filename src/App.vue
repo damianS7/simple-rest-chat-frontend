@@ -1,86 +1,77 @@
 <template>
-  <b-container id="app" class="app">
-  <p> dsfsfdsdf </p>
-    <b-row class="app-one">
-      <b-col cols="5" sm="5" md="5" lg="3" class="side">
-        <div class="side-left">
-          <b-row class="heading">
-            <b-col cols="5" sm="3" class="heading-avatar">
-              <div class="heading-avatar-icon">
-                <!--<img @click="showProfile" :src="appUserAvatarPath" />-->
-              </div>
-            </b-col>
+  <b-container id="app" fluid>
+    <b-row
+      v-if="!isLogged"
+      id="login-component"
+      class="full-screen-component bg-secondary"
+    >
+      <login></login>
+    </b-row>
 
-            <b-col cols="7" sm="5" class="heading-name">
-              <!--<a class="heading-name-meta">{{ appUser.profile.alias }}</a>-->
-            </b-col>
-
-            <b-col cols="3" sm="2" class="heading-compose">
-              <!--<i @click="showContacts" class="fa fa-comments fa-2x float-right"></i>-->
-            </b-col>
-
-            <b-col cols="3" sm="2" class="heading-compose">
-              <!--<i @click="showPeople" class="fa fa-user-plus fa-2x float-right"></i>-->
-            </b-col>
-          </b-row>
-          <!--<conversation-list></conversation-list>-->
-        </div>
-
-        <div class="side-contacts">
-          <!--<contacts></contacts>-->
-        </div>
-
-        <div class="side-people">
-          <!--<people-finder></people-finder>-->
-        </div>
-
-        <div class="side-profile">
-          <!--<profile></profile>-->
-        </div>
-      </b-col>
-
-      <b-col cols="7" sm="7" md="7" lg="9" class="conversation">
-        <div class="side-contact-profile">
-          <!--<contact-profile></contact-profile>-->
-        </div>
-        <b-row class="heading">
-          <b-col cols="5" sm="3" md="3" lg="1" class="heading-avatar">
-            <!--<div v-if="selectedUserAvatarPath" class="heading-avatar-icon">-->
-              <!--<img @click="showContactProfile" :src="selectedUserAvatarPath" />-->
-            <!--</div>-->
-          </b-col>
-          <b-col cols="5" sm="8" md="8" lg="10" class="heading-name">
-            <!--<a
-              v-if="selectedUserName"
-              @click="showContactProfile"
-              class="heading-name-meta"
-            >{{ selectedUser.name }}</a>-->
-          </b-col>
-          <b-col cols="2" sm="1" md="1" lg="1" class="heading-dot float-right">
-            <i class="fa fa-ellipsis-v fa-2x float-right" aria-hidden="true"></i>
-          </b-col>
-        </b-row>
-        <conversation></conversation>
-      </b-col>
+    <b-row id="chat-component" class="full-screen-component bg-primary">
+      <chat></chat>
     </b-row>
   </b-container>
 </template>
 
 <script>
-//import HelloWorld from './components/HelloWorld.vue'
-
+import Chat from "./components/Chat.vue";
+import Login from "./components/Login.vue";
+import { mapGetters } from "vuex";
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    //HelloWorld
-  }
-}
+    Login,
+    Chat,
+  },
+  computed: {
+    ...mapGetters({
+      isLogged: "appuser/isLogged",
+      appReady: "appReady",
+    }),
+  },
+  methods: {
+    showLogin() {
+      var div = document.getElementById("login-component");
+      div.style.left = "0%";
+    },
+    hideLogin() {
+      var div = document.getElementById("login-component");
+      div.style.left = "-100%";
+    },
+  },
+};
 </script>
 
 <style>
 #app {
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  /*position: relative;
+  height: calc(100% - 52px);*/
+}
+#chat-component {
+  z-index: 1;
+}
+
+#login-component {
+  z-index: 10;
+  left: 0;
+  position: absolute;
+  -webkit-transition: left 2s ease;
+  transition: left 2s ease;
+}
+
+.full-screen-component {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
 }
 </style>

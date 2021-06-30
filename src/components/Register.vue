@@ -1,18 +1,18 @@
 <template>
-    <b-container fluid class="p-0 wrapper">
-        Hello World!
-        <b-button>Hit me!</b-button>
-        <b-button variant="primary">Primary</b-button>
-    </b-container>
+  <b-container fluid class="p-0 wrapper">
+    Hello World!
+    <b-button>Hit me!</b-button>
+    <b-button variant="primary">Primary</b-button>
+  </b-container>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: "Register",
   props: {
-    msg: String
-  }
-}
+    msg: String,
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
