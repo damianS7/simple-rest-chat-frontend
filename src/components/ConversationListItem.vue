@@ -1,12 +1,12 @@
 <template>
-  <b-row class="sideBar-body">
-    <b-col cols="5" sm="4" class="sideBar-avatar">
+  <b-row class="conversation-list-item sideBar-body">
+    <b-col cols="2" sm="2" class="sideBar-avatar align-self-center">
       <div class="avatar-icon">
         <font-awesome-icon v-if="!conversation.isRoom" icon="user-friends" />
         <font-awesome-icon v-if="conversation.isRoom" icon="users" />
       </div>
     </b-col>
-    <b-col cols="7" sm="8" class="sideBar-main">
+    <b-col cols="10" sm="10" class="sideBar-main">
       <b-row class="row h-auto">
         <b-col cols="12" class="sideBar-name">
           <span class="name-meta">{{ conversation.name }}</span>
@@ -58,5 +58,12 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
+.conversation-list-item {
+  text-align: left;
+}
+.avatar-icon > svg {
+  height: 100%;
+  width: 100%;
+}
 </style>

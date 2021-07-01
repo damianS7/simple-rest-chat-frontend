@@ -5,16 +5,16 @@
     </b-row>
     <b-row id="chat-component" class="full-screen-component">
       <b-row class="app-one">
-        <b-col cols="5" sm="5" md="5" lg="4" class="side">
+        <b-col cols="3" class="side">
           <div class="side-left">
             <b-row class="heading">
-              <b-col cols="5" sm="3" class="heading-avatar">
+              <b-col cols="2" sm="2" class="heading-avatar align-self-center">
                 <div class="heading-avatar-icon">
-                  <font-awesome-icon @click="showProfile" icon="cog" />
+                  <font-awesome-icon @click="showProfile" icon="bars" />
                 </div>
               </b-col>
 
-              <b-col cols="7" sm="5" class="heading-name">
+              <b-col cols="10" sm="10" class="heading-name">
                 <a class="heading-name-meta">{{ appUser.name }}</a>
               </b-col>
             </b-row>
@@ -30,7 +30,7 @@
           </div>
         </b-col>
 
-        <b-col cols="7" sm="7" md="7" lg="8" class="conversation">
+        <b-col cols="9" class="conversation">
           <b-row class="heading">
             <b-col cols="12" class="heading-name">
               <a v-if="selectedConversationTitle" class="heading-name-meta">{{
@@ -63,13 +63,13 @@ export default {
     ConversationHistory,
   },
   computed: {
-    ...mapGetters({
-      isLogged: "isLogged",
-      appReady: "appReady",
-    }),
     ...mapState({
       appUser: (state) => state.appUser,
       selectedConversation: (state) => state.selectedConversation,
+    }),
+    ...mapGetters({
+      isLogged: "isLogged",
+      appReady: "appReady",
     }),
     selectedConversationTitle: function () {
       if (this.selectedConversation != null) {
@@ -225,5 +225,10 @@ export default {
 #conver-list-wrapper {
   overflow-y: scroll;
   height: calc(100% - 60px);
+}
+
+.heading-avatar-icon > svg {
+  height: 100%;
+  width: 100%;
 }
 </style>
