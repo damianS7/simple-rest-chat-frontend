@@ -21,12 +21,14 @@ export default {
 </script>
 <style scoped>
 .own-messages {
+  box-shadow: 0px 0px 10px 1px #eee;
   border-radius: 10px 10px 0 10px;
   background: #dcf8c6;
   text-align: right;
 }
 
 .other-messages {
+  box-shadow: 0px 0px 10px 1px #ffffff;
   border-radius: 10px 10px 10px 0;
   background: #ffffff;
   text-align: left;
@@ -54,6 +56,7 @@ export default {
 .own-messages,
 .other-messages {
   width: auto;
+
   min-width: 35%;
   max-width: 50%;
   padding: 4px 10px 7px;
