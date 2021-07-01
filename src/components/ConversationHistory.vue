@@ -1,15 +1,6 @@
 <template>
   <b-row class="side">
-    <b-col class="icon-menu">
-      <a
-        @click="insertIcon"
-        href="#"
-        v-bind:key="index"
-        v-for="(icon, index) of icons"
-        >{{ icon }}</a
-      >
-    </b-col>
-    <div class="message">
+    <b-row id="history" class="message">
       <b-row v-if="!userSelected" class="message-previous">
         <b-col cols="12" class="previous"
           >Select a conversation to load some messages</b-col
@@ -24,21 +15,18 @@
       </div>
 
       <conversation-message
-        v-for="(message, index) of selectedConversation.messages"
+        v-for="(message, index) of messagesFromSelectedChat"
         v-bind:key="index"
-        :author_id="message.author_id"
-        :message="message.content"
-        :name="senderName(message.author_id)"
-        :sent_at="message.sent_at"
-        :isSender="isSender(message.author_id)"
+        :author_id="message.senderId"
+        :message="message.message"
+        :name="message.sender"
+        :sent_at="message.senderId"
+        :isSender="isSender(message.senderId)"
       ></conversation-message>
-    </div>
+    </b-row>
 
     <b-row class="reply">
-      <b-col cols="3" sm="2" lg="1" class="reply-emojis">
-        <font-awesome-icon @click="iconMenu" icon="grin-beam" />
-      </b-col>
-      <b-col cols="6" sm="8" lg="10" class="reply-main">
+      <b-col cols="9" sm="10" lg="10" class="reply-main">
         <textarea
           v-on:keyup.enter="sendMessage"
           v-model="input"
@@ -48,7 +36,7 @@
         ></textarea>
       </b-col>
 
-      <b-col cols="3" sm="2" lg="1" class="reply-send">
+      <b-col cols="3" sm="2" lg="2" class="reply-send">
         <font-awesome-icon @click="sendMessage" icon="paper-plane" />
       </b-col>
     </b-row>
@@ -62,52 +50,10 @@ export default {
   name: "Conversation",
   data: function () {
     return {
-      icons: [
-        "😀",
-        "😁",
-        "😂",
-        "😅",
-        "😈",
-        "😇",
-        "😍",
-        "😎",
-        "😘",
-        "😥",
-        "😭",
-        "😱",
-        "😷",
-        "😰",
-      ],
       input: "",
-      iconMenuVisible: false,
     };
   },
   methods: {
-    // Nombre del usuario que envia el mensaje
-    senderName(senderId) {
-      if (this.appUser.id === senderId) {
-        return this.appUser.name;
-      }
-
-      var user = this.getUserById(senderId);
-      return user.name;
-    },
-
-    // Muestra/oculta el menu de los iconos de conversacion
-    iconMenu() {
-      var div = document.getElementsByClassName("icon-menu")[0];
-      if (!this.iconMenuVisible) {
-        div.style.bottom = "5%";
-        this.iconMenuVisible = true;
-      } else {
-        this.iconMenuVisible = false;
-        div.style.bottom = "-100%";
-      }
-    },
-    // Al hacer click sobre un icono, este es insertado en el input
-    insertIcon(event) {
-      this.input += event.target.innerHTML;
-    },
     // Devuelve true o false si el usuario que envia el mensaje es la persona
     // logeada en la app (true) o no (false)
     isSender(author_id) {
@@ -117,13 +63,23 @@ export default {
       return false;
     },
     // Envia el mensaje al servidor
-    sendMessage(event) {
+    sendMessage() {
       // Si existe texto que enviar ...
       if (this.input.trim().length > 0) {
         // Y hay una conversacion seleccionada ...
         if (typeof this.selectedConversation.id !== "undefined") {
+          let data = {
+            conversation: { id: this.selectedConversation.id },
+            message: {
+              senderId: this.appUser.id,
+              sender: this.appUser.name,
+              message: this.input,
+            },
+          };
+
           // Enviamos el mensaje
-          this.$store.dispatch("postMessage", this.input);
+          //this.$store.dispatch("sendMessage", this.input);
+          this.$store.dispatch("sendMessage", data);
         }
       }
 
@@ -133,7 +89,7 @@ export default {
   },
   // Mantiene permanentemente el scroll de la conversacion abajo
   updated() {
-    var div = document.getElementById("conversation");
+    var div = document.getElementById("history");
     div.scrollTop = div.scrollHeight;
   },
   computed: {
@@ -158,6 +114,12 @@ export default {
 
       return true;
     },
+    messagesFromSelectedChat: function () {
+      if (this.selectedConversation == null) {
+        return [];
+      }
+      return this.selectedConversation.messages;
+    },
   },
   components: {
     "conversation-message": ConversationMessage,
@@ -181,6 +143,9 @@ export default {
 .message {
   width: 100%;
   height: calc(100% - 60px);
+}
+.message-body {
+  width: 100%;
 }
 .side {
   width: 100%;

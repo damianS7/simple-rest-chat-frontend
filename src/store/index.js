@@ -48,13 +48,22 @@ export default new Vuex.Store({
             state.selectedConversation = conversation;
         },
         ADD_CONVERSATION(state, conversation) {
-            state.rooms.push(conversation);
+            state.conversations.push(conversation);
         },
         SET_CONVERSATIONS(state, conversations) {
-            state.rooms = conversations;
+            state.conversations = conversations;
         },
+        ADD_MESSAGE(state, data) {
+            let fconversation = state.conversations.find(
+                conversation => conversation.id === data.conversation.id
+            );
+            fconversation.messages.push(data.message);
+        }
     },
     actions: {
+        sendMessage(context, data) {
+            context.commit('ADD_MESSAGE', data);
+        },
         selectConversation(context, conversation) {
             context.commit('SET_SELECTED_CONVERSATION', conversation);
         },
@@ -63,15 +72,16 @@ export default new Vuex.Store({
                 id: conversation.id,
                 name: conversation.name,
                 isRoom: false,
-                messages: [
-                    // Uusado para el mensaje inicial
-                    {
-                        senderId: null,
-                        sender: null,
-                        message: 'Welcome to the chat.'
-                    }
-                ]
+                messages: conversation.messages
             }
+            // Uusado para el mensaje inicial
+            newConversation.messages.push(
+                {
+                    senderId: null,
+                    sender: null,
+                    message: 'Welcome to the chat.'
+                }
+            );
             context.commit('ADD_CONVERSATION', newConversation);
         },
         addConversations(context, conversations) {

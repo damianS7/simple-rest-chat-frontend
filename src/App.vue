@@ -73,7 +73,7 @@ export default {
     }),
     selectedConversationTitle: function () {
       if (this.selectedConversation != null) {
-        return this.selectedConverasation.name;
+        return this.selectedConversation.name;
       }
 
       return "";
@@ -92,6 +92,83 @@ export default {
       var div = document.getElementsByClassName("side-profile")[0];
       div.style.left = "0%";
     },
+  },
+  mounted() {
+    console.log("App mounted");
+    // Cargar hardcoded data para testing
+
+    let conversations = [
+      {
+        id: 1,
+        name: "Room 1",
+        description: "aasdsdasd",
+        isRoom: true,
+        messages: [
+          {
+            senderId: 5,
+            sender: "Robert",
+            message: "Hello everybody",
+          },
+        ],
+      },
+      {
+        id: 2,
+        isRoom: true,
+        name: "Room 2",
+        description: "vvvv",
+        messages: [],
+      },
+      {
+        id: 3,
+        isRoom: true,
+        name: "Room 3",
+        description: "vvvv",
+        messages: [],
+      },
+      {
+        id: 4,
+        isRoom: true,
+        name: "Room 4",
+        description: "vvvv",
+        messages: [],
+      },
+      {
+        id: 5,
+        isRoom: true,
+        name: "Room 5",
+        description: "vvvv",
+        messages: [],
+      },
+      { id: 6, isRoom: true, name: "Room 6", description: "xdd", messages: [] },
+      {
+        id: 7,
+        isRoom: true,
+        name: "Room 7",
+        description: "vvvv",
+        messages: [],
+      },
+      { id: 8, isRoom: true, name: "Room 8", description: "xdd", messages: [] },
+      { id: 9, isRoom: true, name: "Room 9", description: "xdd", messages: [] },
+      {
+        id: 10,
+        isRoom: true,
+        name: "Room 10",
+        description: "xdd",
+        messages: [],
+      },
+    ];
+
+    this.$store.dispatch("addConversations", conversations);
+    this.$store.dispatch("addConversation", {
+      id: 77,
+      name: "Pepito",
+      isRoom: false,
+      messages: [
+        { senderId: 1, sender: "Pepito", message: "Hola" },
+        { senderId: 1, sender: "Pepito", mesage: "Xd" },
+        { senderId: 1, sender: "Pepito", message: "Estas?" },
+      ],
+    });
   },
 };
 </script>

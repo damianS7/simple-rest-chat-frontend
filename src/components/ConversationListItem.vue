@@ -8,7 +8,7 @@
     <b-col cols="7" sm="8" class="sideBar-main">
       <b-row class="row h-auto">
         <b-col cols="12" class="sideBar-name">
-          <span class="name-meta">{{ conversation.sender }}</span>
+          <span class="name-meta">{{ conversation.name }}</span>
         </b-col>
       </b-row>
       <b-row class="row">
@@ -43,13 +43,6 @@ export default {
   computed: {
     ...mapState(["conversations", "appUser"]),
     ...mapGetters(["getUserById", "isContact"]),
-    // Path del avatar que aparece en el item de la conversacion
-    avatarPath: function () {
-      //var userConversation = this.getUserFromConversation();
-      //var user = this.getUserById(userConversation.id);
-      //return "/images/" + user.profile.avatar;
-      return "";
-    },
     // Nombre de usuario que aparece en el item de la conversacion
     contactName: function () {
       //var userConversation = this.getUserFromConversation();
@@ -66,12 +59,14 @@ export default {
     },
     // Fecha del ultimo mensaje de la conversacion
     lastMessage: function () {
+      let message = "...";
       // Si la conversacion tiene mensajes ...
       if (this.conversation.messages.length > 0) {
-        return this.conversation.messages[this.conversation.messages.length - 1]
-          .message;
+        message =
+          this.conversation.messages[this.conversation.messages.length - 1]
+            .message;
       }
-      return "....";
+      return message.substr(0, 10) + "...";
     },
   },
 };
