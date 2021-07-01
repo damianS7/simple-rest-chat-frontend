@@ -18,7 +18,7 @@ export default new Vuex.Store({
         appReady: false,
 
         // Lista con todas las salas
-        rooms: [],
+        conversations: [],
 
         // Puede ser una sala o conversacion con otro usuario
         selectedConversation: {
@@ -40,8 +40,8 @@ export default new Vuex.Store({
         getSelectedConversation: (state) => {
             return state.selectedConversation;
         },
-        getConversation: (state) => {
-            return state.conversation;
+        getConversations: (state) => {
+            return state.conversations;
         }
     },
     mutations: {
@@ -66,7 +66,7 @@ export default new Vuex.Store({
         selectConversation(context, conversation) {
             context.commit('SET_SELECTED_CONVERSATION', conversation);
         },
-        addRoom(context, conversation) {
+        addConversation(context, conversation) {
             let newConversation = {
                 id: conversation.id,
                 name: conversation.name,
@@ -82,7 +82,7 @@ export default new Vuex.Store({
             }
             context.commit('ADD_CONVERSATION', newConversation);
         },
-        addRooms(context, conversations) {
+        addConversations(context, conversations) {
             //rooms.array.forEach(room => {
             //context.addRoom(room);
             //});
