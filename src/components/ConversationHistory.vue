@@ -19,7 +19,7 @@
         v-bind:key="index"
         :author_id="message.senderId"
         :message="message.message"
-        :name="message.sender"
+        :sender="message.sender"
         :sent_at="message.senderId"
         :isSender="isSender(message.senderId)"
       ></conversation-message>

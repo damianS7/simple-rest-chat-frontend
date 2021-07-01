@@ -157,15 +157,6 @@ export default {
         description: "vvvv",
         messages: [],
       },
-      { id: 8, isRoom: true, name: "Room 8", description: "xdd", messages: [] },
-      { id: 9, isRoom: true, name: "Room 9", description: "xdd", messages: [] },
-      {
-        id: 10,
-        isRoom: true,
-        name: "Room 10",
-        description: "xdd",
-        messages: [],
-      },
     ];
 
     this.$store.dispatch("addConversations", conversations);
@@ -174,9 +165,15 @@ export default {
       name: "Pepito",
       isRoom: false,
       messages: [
-        { senderId: 1, sender: "Pepito", message: "Hola" },
-        { senderId: 1, sender: "Pepito", message: "Xdddddd" },
-        { senderId: 1, sender: "Pepito", message: "Estas?" },
+        { senderId: 66, sender: "Pepito", message: "Hola" },
+        { senderId: 1, sender: "Damian", message: "Xdddddd" },
+        { senderId: 66, sender: "Pepito", message: "Estas?" },
+        { senderId: 66, sender: "Pepito", message: "Hola" },
+        { senderId: 66, sender: "Pepito", message: "Xdddddd" },
+        { senderId: 1, sender: "Damian", message: "Estas?" },
+        { senderId: 1, sender: "Damian", message: "Hola" },
+        { senderId: 66, sender: "Pepito", message: "Xdddddd" },
+        { senderId: 1, sender: "Damian", message: "Estas?" },
       ],
     });
   },
