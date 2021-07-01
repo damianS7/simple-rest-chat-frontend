@@ -1,5 +1,5 @@
 <template>
-  <b-col class="h-100">
+  <b-col class="h-100 p-0">
     <b-row class="profile-header">
       <b-row class="newMessage-main">
         <b-col cols="2" sm="2" class="newMessage-back">
@@ -117,6 +117,7 @@ export default {
 <style scoped>
 .profile-header {
   background-color: #00bfa5;
+  margin: 0;
 }
 
 .avatar-menu {

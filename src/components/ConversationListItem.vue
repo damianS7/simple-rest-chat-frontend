@@ -2,7 +2,8 @@
   <b-row class="sideBar-body">
     <b-col cols="5" sm="4" class="sideBar-avatar">
       <div class="avatar-icon">
-        <font-awesome-icon icon="user-friends" />
+        <font-awesome-icon v-if="!conversation.isRoom" icon="user-friends" />
+        <font-awesome-icon v-if="conversation.isRoom" icon="users" />
       </div>
     </b-col>
     <b-col cols="7" sm="8" class="sideBar-main">
@@ -43,20 +44,6 @@ export default {
   computed: {
     ...mapState(["conversations", "appUser"]),
     ...mapGetters(["getUserById", "isContact"]),
-    // Nombre de usuario que aparece en el item de la conversacion
-    contactName: function () {
-      //var userConversation = this.getUserFromConversation();
-      //var user = this.getUserById(userConversation.id);
-
-      // Si la conversacion es de un usuario, mostramos el alias
-      //if (this.isContact(user.id)) {
-      //        return user.profile.alias;
-      //}
-
-      // Si no es contacto mostramos el telefono
-      //return user.phone;
-      return this.conversation.from;
-    },
     // Fecha del ultimo mensaje de la conversacion
     lastMessage: function () {
       let message = "...";
