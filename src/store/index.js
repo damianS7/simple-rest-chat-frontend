@@ -75,7 +75,7 @@ export default new Vuex.Store({
                 messages: conversation.messages
             }
             // Uusado para el mensaje inicial
-            newConversation.messages.push(
+            newConversation.messages.unshift(
                 {
                     senderId: null,
                     sender: null,

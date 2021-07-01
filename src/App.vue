@@ -5,12 +5,12 @@
     </b-row>
     <b-row id="chat-component" class="full-screen-component">
       <b-row class="app-one">
-        <b-col cols="5" sm="5" md="5" lg="3" class="side">
+        <b-col cols="5" sm="5" md="5" lg="4" class="side">
           <div class="side-left">
             <b-row class="heading">
               <b-col cols="5" sm="3" class="heading-avatar">
                 <div class="heading-avatar-icon">
-                  <img @click="showProfile" src="a.jpg" />
+                  <font-awesome-icon @click="showProfile" icon="cog" />
                 </div>
               </b-col>
 
@@ -19,8 +19,8 @@
               </b-col>
             </b-row>
 
-            <b-row class="m-0">
-              <b-col class="side">
+            <b-row class="m-0 h-100">
+              <b-col id="conver-list-wrapper" class="side">
                 <conversation-list></conversation-list>
               </b-col>
             </b-row>
@@ -30,7 +30,7 @@
           </div>
         </b-col>
 
-        <b-col cols="7" sm="7" md="7" lg="9" class="conversation">
+        <b-col cols="7" sm="7" md="7" lg="8" class="conversation">
           <b-row class="heading">
             <b-col cols="12" class="heading-name">
               <a v-if="selectedConversationTitle" class="heading-name-meta">{{
@@ -109,6 +109,16 @@ export default {
             sender: "Robert",
             message: "Hello everybody",
           },
+          {
+            senderId: 1,
+            sender: "Damian",
+            message: "Hi robert",
+          },
+          {
+            senderId: 5,
+            sender: "Robert",
+            message: "How are u?",
+          },
         ],
       },
       {
@@ -165,7 +175,7 @@ export default {
       isRoom: false,
       messages: [
         { senderId: 1, sender: "Pepito", message: "Hola" },
-        { senderId: 1, sender: "Pepito", mesage: "Xd" },
+        { senderId: 1, sender: "Pepito", message: "Xdddddd" },
         { senderId: 1, sender: "Pepito", message: "Estas?" },
       ],
     });
@@ -209,5 +219,14 @@ export default {
   width: 100%;
   padding: 0;
   margin: 0;
+}
+
+#history {
+  display: inline-block;
+}
+
+#conver-list-wrapper {
+  overflow-y: scroll;
+  height: calc(100% - 60px);
 }
 </style>
