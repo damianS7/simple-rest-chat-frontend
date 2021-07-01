@@ -1,6 +1,6 @@
 <template>
   <b-row class="side">
-    <b-row id="history" class="message">
+    <b-row id="history" class="">
       <b-row v-if="!userSelected" class="message-previous">
         <b-col cols="12" class="previous"
           >Select a conversation to load some messages</b-col
@@ -127,22 +127,11 @@ export default {
 };
 </script>
 <style scoped>
-.icon-menu {
-  position: absolute;
-  bottom: -100%;
-  left: 35px;
-  width: 300px;
-  z-index: 10001;
-  background-color: antiquewhite;
-  border-radius: 4px;
-  padding: 5px;
-  border: 2px solid black;
-  -webkit-transition: bottom 1s ease;
-  transition: bottom 1s ease;
-}
-.message {
+#history {
   width: 100%;
   height: calc(100% - 60px);
+  margin: 0;
+  overflow-y: scroll;
 }
 .message-body {
   width: 100%;
