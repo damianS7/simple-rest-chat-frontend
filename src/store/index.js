@@ -52,9 +52,6 @@ export default new Vuex.Store({
         SET_SELECTED_CONVERSATION(state, conversation) {
             state.selectedConversation = conversation;
         },
-        SET_READY(state) {
-            state.ready = true;
-        },
         ADD_CONVERSATION(state, conversation) {
             state.rooms.push(conversation);
         },
