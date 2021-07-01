@@ -19,12 +19,12 @@
       <div v-if="emptyChat" class="row message-previous">
         <b-col sm="12" class="previous">
           Don't be shy! Say something to
-          <strong>{{ selectedUser.name }}</strong>
+          <strong>{{ selectedConversation.name }}</strong>
         </b-col>
       </div>
 
       <conversation-message
-        v-for="(message, index) of selectedChat.messages"
+        v-for="(message, index) of selectedConversation.messages"
         v-bind:key="index"
         :author_id="message.author_id"
         :message="message.content"
@@ -121,7 +121,7 @@ export default {
       // Si existe texto que enviar ...
       if (this.input.trim().length > 0) {
         // Y hay una conversacion seleccionada ...
-        if (typeof this.selectedChat.id !== "undefined") {
+        if (typeof this.selectedConversation.id !== "undefined") {
           // Enviamos el mensaje
           this.$store.dispatch("postMessage", this.input);
         }
@@ -137,22 +137,22 @@ export default {
     div.scrollTop = div.scrollHeight;
   },
   computed: {
-    ...mapState(["selectedChat", "appUser", "selectedUser"]),
+    ...mapState(["selectedConversation", "appUser"]),
     ...mapGetters(["getUserById", "lastChatSelected"]),
     // True si se ha seleccionado un usuario
     userSelected: function () {
-      if (typeof this.selectedUser.id === "undefined") {
+      if (this.selectedConversation == null) {
         return false;
       }
       return true;
     },
     // True si la conversacion esta vacia
     emptyChat: function () {
-      if (typeof this.selectedUser.id === "undefined") {
+      if (this.selectedConversation == null) {
         return false;
       }
 
-      if (this.selectedChat.messages.length > 0) {
+      if (this.selectedConversation.messages.length > 0) {
         return false;
       }
 

@@ -1,17 +1,13 @@
-import Vuex from "vuex"
+import axios from 'axios'
 import Vue from "vue"
-
-// Modules
-import appuser from "./modules/user"
-import conversation from "./modules/conversation"
-
+import Vuex from "vuex"
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-    modules: {
-        appuser, conversation
-    },
     state: {
+        // Datos del usuario que utiliza la app
+        appUser: { id: 1, name: "Damian", email: "josepwnz@gmail.com" },
+
         // Al inicio de la aplicacion (mientras se carga al abrir la url)
         // la app no puede ser usada porque los datos no se han cargado
         // por lo que usaremos el flag para determinar si la app termino de cargar
@@ -21,17 +17,7 @@ export default new Vuex.Store({
         conversations: [],
 
         // Puede ser una sala o conversacion con otro usuario
-        selectedConversation: {
-            id: 1,
-            name: 'Pepito',
-            isRoom: false,
-            messages: [
-                { senderId: 1, sender: 'Pepito', text: 'Hola' },
-                { senderId: 1, sender: 'Pepito', text: 'Xd' },
-                { senderId: 1, sender: 'Pepito', text: 'Estas?' }
-
-            ]
-        }
+        selectedConversation: null
     },
     getters: {
         isAppReady: (state) => {
@@ -42,9 +28,18 @@ export default new Vuex.Store({
         },
         getConversations: (state) => {
             return state.conversations;
-        }
+        },
+        isLogged: (state) => {
+            if (state.appUser.id === null) {
+                return false;
+            }
+            return true;
+        },
     },
     mutations: {
+        SET_USER(state, user) {
+            state.appUuser = user;
+        },
         SET_READY(state) {
             state.appReady = true;
         },
@@ -87,6 +82,30 @@ export default new Vuex.Store({
         },
         addMessage(context, conversation) {
             // Comprobar si es una room o conversacion entre usuarios
+        },
+        login(context) {
+            axios.post("api/users/", { //user
+                // Pasar user y login del formulario
+                // user: context.state.appUser
+            }).then(function (response) {
+                // Si el request tuvo exito (codigo 200)
+                if (response.status == 200) {
+                    // Cargar los datos de usuario
+                    //context.SET_USER(response['data']);
+                    console.log(response);
+                }
+            }).catch(function (error) {
+                console.log(error);
+                // Mostrar mensaje de error en el formulario de login
+            });
+            context.isLogged;
+        },
+        logout(context) {
+            axios.post("api/users/logout").catch(error => {
+                //window.location.href = "/login";
+                context.isLogged;
+                console.log(error);
+            });
         },
     }
 })

@@ -80,7 +80,7 @@ export default {
   },
   computed: {
     ...mapState({
-      appUser: (state) => state.appuser.appUser,
+      appUser: (state) => state.appUser,
     }),
     avatarPath: function () {
       return "";

@@ -22,7 +22,6 @@
             <b-row class="m-0">
               <b-col class="side">
                 <conversation-list></conversation-list>
-                <room-list></room-list>
               </b-col>
             </b-row>
           </div>
@@ -65,12 +64,12 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isLogged: "appuser/isLogged",
+      isLogged: "isLogged",
       appReady: "appReady",
     }),
     ...mapState({
-      appUser: (state) => state.appuser.appUser,
-      selectedChat: (state) => state.selectedChat,
+      appUser: (state) => state.appUser,
+      selectedConversation: (state) => state.selectedConversation,
     }),
     selectedConversationTitle: function () {
       if (this.selectedConversation != null) {

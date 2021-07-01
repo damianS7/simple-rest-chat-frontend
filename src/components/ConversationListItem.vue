@@ -8,7 +8,7 @@
     <b-col cols="7" sm="8" class="sideBar-main">
       <b-row class="row h-auto">
         <b-col cols="12" class="sideBar-name">
-          <span class="name-meta">{{ conversation.with }}</span>
+          <span class="name-meta">{{ conversation.sender }}</span>
         </b-col>
       </b-row>
       <b-row class="row">
@@ -41,7 +41,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["conversations", "contacts", "appUser"]),
+    ...mapState(["conversations", "appUser"]),
     ...mapGetters(["getUserById", "isContact"]),
     // Path del avatar que aparece en el item de la conversacion
     avatarPath: function () {

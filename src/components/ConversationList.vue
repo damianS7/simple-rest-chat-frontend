@@ -2,8 +2,8 @@
   <div class="">
     <conversation-list-item
       v-for="conversation of filterConversations"
-      v-bind:key="conversation.from"
-      :id="conversation.from"
+      v-bind:key="conversation.id"
+      :id="conversation.id"
       :conversation="conversation"
       @click.native="openConversation(conversation)"
     ></conversation-list-item>
@@ -37,7 +37,7 @@ export default {
   },
   computed: {
     ...mapState({
-      conversations: (state) => state.conversation.conversations,
+      conversations: (state) => state.conversations,
     }),
     filterConversations: function () {
       return this.conversations.filter((conversation) => {
