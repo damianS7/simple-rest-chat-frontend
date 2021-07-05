@@ -20,7 +20,7 @@
             <input
               type="text"
               class="form-control"
-              v-model="appUser.name"
+              v-model="appUser.username"
               @change="updateProfile"
             />
           </b-col>

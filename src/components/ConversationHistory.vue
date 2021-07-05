@@ -72,7 +72,7 @@ export default {
             conversation: { id: this.selectedConversation.id },
             message: {
               senderId: this.appUser.id,
-              sender: this.appUser.name,
+              sender: this.appUser.username,
               message: this.input,
             },
           };
