@@ -94,88 +94,24 @@ export default {
     },
   },
   mounted() {
-    console.log("App mounted");
-    // Cargar hardcoded data para testing
-
-    let conversations = [
-      {
-        id: 1,
-        name: "Room 1",
-        description: "aasdsdasd",
-        isRoom: true,
-        messages: [
-          {
-            senderId: 5,
-            sender: "Robert",
-            message: "Hello everybody",
-          },
-          {
-            senderId: 1,
-            sender: "Damian",
-            message: "Hi robert",
-          },
-          {
-            senderId: 5,
-            sender: "Robert",
-            message: "How are u?",
-          },
-        ],
-      },
-      {
-        id: 2,
-        isRoom: true,
-        name: "Room 2",
-        description: "vvvv",
-        messages: [],
-      },
-      {
-        id: 3,
-        isRoom: true,
-        name: "Room 3",
-        description: "vvvv",
-        messages: [],
-      },
-      {
-        id: 4,
-        isRoom: true,
-        name: "Room 4",
-        description: "vvvv",
-        messages: [],
-      },
-      {
-        id: 5,
-        isRoom: true,
-        name: "Room 5",
-        description: "vvvv",
-        messages: [],
-      },
-      { id: 6, isRoom: true, name: "Room 6", description: "xdd", messages: [] },
-      {
-        id: 7,
-        isRoom: true,
-        name: "Room 7",
-        description: "vvvv",
-        messages: [],
-      },
-    ];
-
-    this.$store.dispatch("addConversations", conversations);
-    this.$store.dispatch("addConversation", {
+    // Inicio de la aplicacion, carga de datos
+    // appReady = true
+    // Login request ...
+    // watch onLogin ... do ...
+    // Configuracion con los datos de usuario
+    // this.appUser = ...
+    // Rooms request
+    //this.$store.dispatch("addConversations", conversations);
+    /*this.$store.dispatch("addConversation", {
       id: 77,
       name: "Pepito",
+      description: null,
       isRoom: false,
       messages: [
         { senderId: 66, sender: "Pepito", message: "Hola" },
         { senderId: 1, sender: "Damian", message: "Xdddddd" },
-        { senderId: 66, sender: "Pepito", message: "Estas?" },
-        { senderId: 66, sender: "Pepito", message: "Hola" },
-        { senderId: 66, sender: "Pepito", message: "Xdddddd" },
-        { senderId: 1, sender: "Damian", message: "Estas?" },
-        { senderId: 1, sender: "Damian", message: "Hola" },
-        { senderId: 66, sender: "Pepito", message: "Xdddddd" },
-        { senderId: 1, sender: "Damian", message: "Estas?" },
       ],
-    });
+    });*/
   },
 };
 </script>
