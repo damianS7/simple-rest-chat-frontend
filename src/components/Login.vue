@@ -8,6 +8,7 @@
               type="text"
               id="username"
               class="form-control"
+              v-model="username"
               name="username"
               placeholder="Insert your username"
               required
@@ -21,6 +22,7 @@
             <input
               type="password"
               id="password"
+              v-model="password"
               class="form-control"
               placeholder="Introduce your password"
               name="password"
@@ -31,11 +33,7 @@
 
         <div class="form-group row">
           <div class="offset-md-1 col-md-10">
-            <button
-              type="submit"
-              onclick="event.preventDefault(); post();"
-              class="btn btn-block btn-primary"
-            >
+            <button @click="login" class="btn btn-block btn-primary">
               LOGIN
             </button>
           </div>
@@ -52,11 +50,22 @@
 
 <script>
 export default {
-  name: "Login",
-  props: {
-    msg: String,
+  data: function () {
+    return {
+      username: "",
+      password: "",
+    };
   },
-  methods: {},
+  methods: {
+    login(event) {
+      event.preventDefault();
+      
+      this.$store.dispatch("login", {
+        username: this.username,
+        password: this.password,
+      });
+    },
+  },
 };
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->

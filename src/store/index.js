@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         // Datos del usuario que utiliza la app
-        appUser: { id: 1, name: "Damian", email: "josepwnz@gmail.com" },
+        appUser: { id: null, username: null, email: null, token: null },
 
         // Al inicio de la aplicacion (mientras se carga al abrir la url)
         // la app no puede ser usada porque los datos no se han cargado
@@ -38,7 +38,7 @@ export default new Vuex.Store({
     },
     mutations: {
         SET_USER(state, user) {
-            state.appUuser = user;
+            state.appUser = user;
         },
         SET_READY(state) {
             state.appReady = true;
@@ -93,22 +93,22 @@ export default new Vuex.Store({
         addMessage(context, conversation) {
             // Comprobar si es una room o conversacion entre usuarios
         },
-        login(context) {
-            axios.post("api/users/", { //user
-                // Pasar user y login del formulario
-                // user: context.state.appUser
-            }).then(function (response) {
-                // Si el request tuvo exito (codigo 200)
-                if (response.status == 200) {
-                    // Cargar los datos de usuario
-                    //context.SET_USER(response['data']);
-                    console.log(response);
-                }
-            }).catch(function (error) {
-                console.log(error);
-                // Mostrar mensaje de error en el formulario de login
-            });
-            context.isLogged;
+        login(context, { username, password }) {
+            let data = { username: username, password: password };
+            axios.post("http://localhost:8888/login", data)
+                .then(function (response) {
+                    // Si el request tuvo exito (codigo 200)
+                    if (response.status == 200) {
+                        // Cargar los datos de usuario
+                        let user = {
+                            id: response['data'].id,
+                            username: response['data'].username,
+                            email: response['data'].username, // corregir
+                            token: response['data'].token
+                        };
+                        context.commit("SET_USER", user);
+                    }
+                });
         },
         logout(context) {
             axios.post("api/users/logout").catch(error => {
