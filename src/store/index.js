@@ -1,6 +1,8 @@
 import axios from 'axios'
 import Vue from "vue"
 import Vuex from "vuex"
+import SockJS from "sockjs-client"
+import Stomp from "webstomp-client"
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -17,7 +19,11 @@ export default new Vuex.Store({
         conversations: [],
 
         // Puede ser una sala o conversacion con otro usuario
-        selectedConversation: null
+        selectedConversation: null,
+
+        // Socket ...
+        socket: null,
+        stompClient: null
     },
     getters: {
         isAppReady: (state) => {
@@ -53,17 +59,14 @@ export default new Vuex.Store({
         SET_CONVERSATIONS(state, conversations) {
             state.conversations = conversations;
         },
-        ADD_MESSAGE(state, data) {
+        ADD_MESSAGE(state, { conversationId, message }) {
             let fconversation = state.conversations.find(
-                conversation => conversation.id === data.conversation.id
+                conversation => conversation.id === conversationId
             );
-            fconversation.messages.push(data.message);
+            fconversation.messages.push(message);
         }
     },
     actions: {
-        sendMessage(context, data) {
-            context.commit('ADD_MESSAGE', data);
-        },
         selectConversation(context, conversation) {
             context.commit('SET_SELECTED_CONVERSATION', conversation);
         },
@@ -90,12 +93,23 @@ export default new Vuex.Store({
             //});
             context.commit('SET_CONVERSATIONS', conversations);
         },
-        addMessage(context, conversation) {
+        // Agrega cada mensaje a la conversacion correspondiente
+        addMessage(context, messageResponse) {
+            // Se busca la conversacion a la que va dirigida el mensaje
+
             // Comprobar si es una room o conversacion entre usuarios
+            context.commit('ADD_MESSAGE', {
+                conversationId: messageResponse.roomId,
+                message: {
+                    senderId: messageResponse.senderId,
+                    sender: messageResponse.sender,
+                    message: messageResponse.message
+                }
+            });
         },
         login(context, { username, password }) {
             let data = { username: username, password: password };
-            axios.post("http://localhost:8888/login", data)
+            axios.post("http://localhost:8888/api/users/login", data)
                 .then(function (response) {
                     // Si el request tuvo exito (codigo 200)
                     if (response.status == 200) {
@@ -107,15 +121,64 @@ export default new Vuex.Store({
                             token: response['data'].token
                         };
                         context.commit("SET_USER", user);
+                        context.commit("SET_READY", true);
+                        context.dispatch("fetchRooms");
+                        context.dispatch("connectSocket");
                     }
                 });
         },
-        logout(context) {
-            axios.post("api/users/logout").catch(error => {
-                //window.location.href = "/login";
-                context.isLogged;
-                console.log(error);
+        connectSocket(context) {
+            this.socket = new SockJS('http://localhost:8888/ws/connect');
+            this.stompClient = Stomp.over(this.socket);
+            let dis = this;
+
+            this.stompClient.connect({}, function (frame) {
+                console.log("Connected to the socket!");
+                // Subscribirse a /room/message hara que todo lo que 
+                // se envie a ese path sea reenviado a todos los 
+                // subscriptores
+                dis.stompClient.subscribe('/room/message',
+                    function (response) {
+                        context.dispatch("addMessage", JSON.parse(response.body));
+                    });
             });
         },
+        disconnectSocket(context) {
+            if (this.stompClient !== null) {
+                this.stompClient.disconnect();
+            }
+            console.log("Disconnected");
+        },
+        sendMessage(context, messageRequest) {
+            console.log("Enviando: " + messageRequest);
+            if (this.stompClient && this.stompClient.connected) {
+                this.stompClient.send(
+                    "/ws/app/chat",
+                    JSON.stringify(messageRequest), //body
+                    {}); // header
+            }
+        },
+        fetchRooms(context) {
+            axios.defaults.headers.common['Authorization'] = "Bearer " + context.state.appUser.token;
+            axios.get("http://localhost:8888/api/rooms/list")
+                .then(function (response) {
+                    // Si el request tuvo exito (codigo 200)
+                    if (response.status == 200) {
+                        let rooms = response['data']
+                        rooms.forEach(room => {
+                            room.isRoom = true;
+                            room.messages = [
+                                {
+                                    senderId: null,
+                                    sender: null,
+                                    message: 'Welcome to the chat.'
+                                }
+                            ];
+                        });
+                        // Cargar rooms
+                        context.commit("SET_CONVERSATIONS", rooms);
+                    }
+                });
+        }
     }
 })

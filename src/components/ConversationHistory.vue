@@ -68,18 +68,15 @@ export default {
       if (this.input.trim().length > 0) {
         // Y hay una conversacion seleccionada ...
         if (typeof this.selectedConversation.id !== "undefined") {
-          let data = {
-            conversation: { id: this.selectedConversation.id },
-            message: {
-              senderId: this.appUser.id,
-              sender: this.appUser.username,
-              message: this.input,
-            },
+          let roomMessageRequest = {
+            roomId: this.selectedConversation.id,
+            senderId: this.appUser.id,
+            sender: this.appUser.username,
+            message: this.input,
           };
 
           // Enviamos el mensaje
-          //this.$store.dispatch("sendMessage", this.input);
-          this.$store.dispatch("sendMessage", data);
+          this.$store.dispatch("sendMessage", roomMessageRequest);
         }
       }
 
