@@ -21,7 +21,7 @@
             </b-row>
 
             <b-row class="m-0 h-100">
-              <b-col id="conver-list-wrapper" class="side">
+              <b-col id="room-list-wrapper" class="side">
                 <room-list></room-list>
               </b-col>
             </b-row>
@@ -95,7 +95,6 @@ export default {
   },
   mounted() {
     // Inicio de la aplicacion, carga de datos
-    // watch onLogin ... do ...
     this.unsubscribe = this.$store.subscribe((mutation, state) => {
       if (mutation.type === "SET_READY") {
         if (this.isLogged) {
@@ -149,8 +148,8 @@ export default {
   display: inline-block;
 }
 
-#conver-list-wrapper {
-  overflow-y: scroll;
+#room-list-wrapper {
+  overflow-y: auto;
   height: calc(100% - 60px);
 }
 

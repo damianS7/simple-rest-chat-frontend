@@ -181,7 +181,7 @@ body {
 }
 
 
-.sideBar, .sideBar-conversations {
+.sideBar, .sideBar-rooms {
   padding: 0 !important;
   margin: 0 !important;
   background-color: #fff;
@@ -190,7 +190,7 @@ body {
   height: calc(100% - 120px);
 }
 
-.sideBar-conversations {
+.sideBar-rooms {
   height: calc(100% - 60px);
 }
 
@@ -337,7 +337,7 @@ body {
 
 /*Conversation*/
 
-.conversation {
+.room {
   padding: 0 !important;
   margin: 0 !important;
   height: 100%;
@@ -505,10 +505,10 @@ body {
     height: 100%;
     overflow: auto;
   }
-  .conversation {
+  .room {
     height: auto;
   }
-  .sideBar-conversations .sideBar-body {
+  .sideBar-rooms .sideBar-body {
     height: auto;
   }
   .heading {
@@ -519,7 +519,7 @@ body {
     height: calc(100% - 60px);
   }
 
-  .sideBar, .sideBar-conversations {
+  .sideBar, .sideBar-rooms {
     height: calc(100% - 80px);
   }
 

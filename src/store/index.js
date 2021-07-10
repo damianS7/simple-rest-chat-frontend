@@ -16,12 +16,12 @@ export default new Vuex.Store({
         appReady: false,
 
         // Lista con todas las salas
-        /*
+        /* Formato de un objeto room
         {
             id: 77,
             name: "Pepito",
             description: null,
-            isPrivateRoom: false,
+            isRoom: true,
             messages: [
                 { senderId: 66, sender: "Pepito", message: "Hola" },
                 { senderId: 1, sender: "Damian", message: "Xdddddd" },
@@ -176,10 +176,8 @@ export default new Vuex.Store({
             if (this.stompClient !== null) {
                 this.stompClient.disconnect();
             }
-            console.log("Disconnected");
         },
         sendMessage(context, messageRequest) {
-            console.log("Enviando: " + messageRequest);
             if (this.stompClient && this.stompClient.connected) {
                 this.stompClient.send(
                     "/ws/app/chat",

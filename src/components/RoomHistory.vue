@@ -128,7 +128,7 @@ export default {
   width: 100%;
   height: calc(100% - 60px);
   margin: 0;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .message-body {
   width: 100%;
