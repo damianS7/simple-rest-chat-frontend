@@ -22,7 +22,7 @@
 
             <b-row class="m-0 h-100">
               <b-col id="conver-list-wrapper" class="side">
-                <conversation-list></conversation-list>
+                <room-list></room-list>
               </b-col>
             </b-row>
           </div>
@@ -31,17 +31,17 @@
           </div>
         </b-col>
 
-        <b-col cols="9" class="conversation">
+        <b-col cols="9" class="room">
           <b-row class="heading">
             <b-col cols="12" class="heading-name">
-              <a v-if="selectedConversationTitle" class="heading-name-meta">{{
-                selectedConversationTitle
+              <a v-if="selectedRoomTitle" class="heading-name-meta">{{
+                selectedRoomTitle
               }}</a>
             </b-col>
           </b-row>
 
-          <b-row id="conversation-box" class="m-0">
-            <conversation-history></conversation-history>
+          <b-row id="room-box" class="m-0">
+            <room-history></room-history>
           </b-row>
         </b-col>
       </b-row>
@@ -53,28 +53,28 @@
 import { mapGetters, mapState } from "vuex";
 import Login from "./components/Login.vue";
 import Profile from "./components/Profile.vue";
-import ConversationList from "./components/ConversationList.vue";
-import ConversationHistory from "./components/ConversationHistory.vue";
+import RoomList from "./components/RoomList.vue";
+import RoomHistory from "./components/RoomHistory.vue";
 export default {
   name: "App",
   components: {
     Login,
     Profile,
-    ConversationList,
-    ConversationHistory,
+    RoomList,
+    RoomHistory,
   },
   computed: {
     ...mapState({
       appUser: (state) => state.appUser,
-      selectedConversation: (state) => state.selectedConversation,
+      selectedRoom: (state) => state.selectedRoom,
     }),
     ...mapGetters({
       isLogged: "isLogged",
       appReady: "appReady",
     }),
-    selectedConversationTitle: function () {
-      if (this.selectedConversation != null) {
-        return this.selectedConversation.name;
+    selectedRoomTitle: function () {
+      if (this.selectedRoom != null) {
+        return this.selectedRoom.name;
       }
       return "";
     },
@@ -103,19 +103,6 @@ export default {
         }
       }
     });
-
-    // Rooms request
-    //this.$store.dispatch("addConversations", conversations);
-    /*this.$store.dispatch("addConversation", {
-      id: 77,
-      name: "Pepito",
-      description: null,
-      isRoom: false,
-      messages: [
-        { senderId: 66, sender: "Pepito", message: "Hola" },
-        { senderId: 1, sender: "Damian", message: "Xdddddd" },
-      ],
-    });*/
   },
 };
 </script>
@@ -124,7 +111,7 @@ export default {
 .app-one {
   width: 100%;
 }
-#conversation-box {
+#room-box {
   height: calc(100% - 60px);
 }
 #app {

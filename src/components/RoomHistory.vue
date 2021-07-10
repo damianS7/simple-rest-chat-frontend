@@ -3,26 +3,26 @@
     <b-row id="history" class="">
       <b-row v-if="!userSelected" class="message-previous">
         <b-col cols="12" class="previous"
-          >Select a conversation to load some messages</b-col
+          >Select a room to load some messages</b-col
         >
       </b-row>
 
       <div v-if="emptyChat" class="row message-previous">
         <b-col sm="12" class="previous">
           Don't be shy! Say something to
-          <strong>{{ selectedConversation.name }}</strong>
+          <strong>{{ selectedRoom.name }}</strong>
         </b-col>
       </div>
 
-      <conversation-message
+      <room-message
         v-for="(message, index) of messagesFromSelectedChat"
         v-bind:key="index"
         :author_id="message.senderId"
         :message="message.message"
         :sender="message.sender"
-        :sent_at="message.senderId"
+        :sent_at="message.sent_at"
         :isSender="isSender(message.senderId)"
-      ></conversation-message>
+      ></room-message>
     </b-row>
 
     <b-row class="reply">
@@ -44,10 +44,10 @@
 </template>
 
 <script>
-import ConversationMessage from "./ConversationMessage";
+import RoomMessage from "./RoomMessage";
 import { mapState, mapGetters } from "vuex";
 export default {
-  name: "Conversation",
+  name: "Room",
   data: function () {
     return {
       input: "",
@@ -67,9 +67,9 @@ export default {
       // Si existe texto que enviar ...
       if (this.input.trim().length > 0) {
         // Y hay una conversacion seleccionada ...
-        if (typeof this.selectedConversation.id !== "undefined") {
+        if (typeof this.selectedRoom.id !== "undefined") {
           let roomMessageRequest = {
-            roomId: this.selectedConversation.id,
+            roomId: this.selectedRoom.id,
             senderId: this.appUser.id,
             sender: this.appUser.username,
             message: this.input,
@@ -90,36 +90,36 @@ export default {
     div.scrollTop = div.scrollHeight;
   },
   computed: {
-    ...mapState(["selectedConversation", "appUser"]),
+    ...mapState(["selectedRoom", "appUser"]),
     ...mapGetters(["getUserById", "lastChatSelected"]),
     // True si se ha seleccionado un usuario
     userSelected: function () {
-      if (this.selectedConversation == null) {
+      if (this.selectedRoom == null) {
         return false;
       }
       return true;
     },
     // True si la conversacion esta vacia
     emptyChat: function () {
-      if (this.selectedConversation == null) {
+      if (this.selectedRoom == null) {
         return false;
       }
 
-      if (this.selectedConversation.messages.length > 0) {
+      if (this.selectedRoom.messages.length > 0) {
         return false;
       }
 
       return true;
     },
     messagesFromSelectedChat: function () {
-      if (this.selectedConversation == null) {
+      if (this.selectedRoom == null) {
         return [];
       }
-      return this.selectedConversation.messages;
+      return this.selectedRoom.messages;
     },
   },
   components: {
-    "conversation-message": ConversationMessage,
+    "room-message": RoomMessage,
   },
 };
 </script>

@@ -6,16 +6,14 @@
     <b-col :class="[isSender ? 'own-messages' : 'other-messages']">
       <b-row class="m-0">{{ message }}</b-row>
       <b-row>
-        <b-col cols="12" class="msg-date">2020-06-21</b-col>
+        <b-col cols="12" class="msg-date">{{ sent_at }}</b-col>
         <b-col cols="12" class="msg-sender">{{ sender }}</b-col>
       </b-row>
     </b-col>
   </b-row>
 </template>
-
 <script>
 export default {
-  name: "ConversationMessage",
   props: ["sender", "message", "isSender", "sent_at"],
 };
 </script>
@@ -56,7 +54,6 @@ export default {
 .own-messages,
 .other-messages {
   width: auto;
-
   min-width: 35%;
   max-width: 50%;
   padding: 4px 10px 7px;
