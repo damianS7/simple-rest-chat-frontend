@@ -3,6 +3,7 @@
     <b-row v-if="!isLogged" id="login-component" class="full-screen-component">
       <login></login>
     </b-row>
+
     <b-row id="chat-component" class="full-screen-component">
       <b-row class="app-one">
         <b-col cols="3" class="side">
@@ -75,7 +76,6 @@ export default {
       if (this.selectedConversation != null) {
         return this.selectedConversation.name;
       }
-
       return "";
     },
   },
@@ -95,11 +95,15 @@ export default {
   },
   mounted() {
     // Inicio de la aplicacion, carga de datos
-    // appReady = true
-    // Login request ...
     // watch onLogin ... do ...
-    // Configuracion con los datos de usuario
-    // this.appUser = ...
+    this.unsubscribe = this.$store.subscribe((mutation, state) => {
+      if (mutation.type === "SET_READY") {
+        if (this.isLogged) {
+          this.unsubscribe;
+        }
+      }
+    });
+
     // Rooms request
     //this.$store.dispatch("addConversations", conversations);
     /*this.$store.dispatch("addConversation", {
