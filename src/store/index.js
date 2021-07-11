@@ -16,19 +16,7 @@ export default new Vuex.Store({
         appReady: false,
 
         // Lista con todas las salas
-        /* Formato de un objeto room
-        {
-            id: 77,
-            name: "Pepito",
-            description: null,
-            isRoom: true,
-            messages: [
-                { senderId: 66, sender: "Pepito", message: "Hola" },
-                { senderId: 1, sender: "Damian", message: "Xdddddd" },
-            ],
-        }
-        */
-        rooms: [],
+        rooms: {},
 
         // Puede ser una sala o conversacion con otro usuario
         selectedRoom: null,
@@ -51,7 +39,12 @@ export default new Vuex.Store({
             return state.selectedRoom;
         },
         getRooms: (state) => {
-            return state.rooms;
+            return Object.keys(state.rooms).map(
+                id => state.rooms[id]
+            );
+        },
+        getRoom: (state) => (roomId) => {
+            return state.rooms[roomId];
         },
     },
     mutations: {
@@ -69,13 +62,11 @@ export default new Vuex.Store({
             state.rooms = rooms;
         },
         ADD_ROOM(state, room) {
-            state.rooms.push(room);
+            Vue.set(state.rooms, room.id, room);
         },
+        // Se agrega el mensaje a la sala a la que va dirigida el mensaje
         ADD_MESSAGE(state, { roomId, message }) {
-            let room = state.rooms.find(
-                room => room.id === roomId
-            );
-            room.messages.push(message);
+            state.rooms[roomId].messages.push(message);
         }
     },
     actions: {
@@ -95,9 +86,9 @@ export default new Vuex.Store({
                                     message: 'Welcome to the chat.'
                                 }
                             ];
+                            // Agregar sala
+                            context.commit("ADD_ROOM", room);
                         });
-                        // Cargar rooms
-                        context.commit("SET_ROOMS", rooms);
                     }
                 });
         },
@@ -105,28 +96,19 @@ export default new Vuex.Store({
             context.commit('SET_SELECTED_ROOM', room);
         },
         addRoom(context, room) {
-            let newRoom = {
-                id: room.id,
-                isRoom: true,
-                name: room.name,
-                description: room.description,
-                messages: room.messages
-            }
-            // Uusado para el mensaje inicial
-            newRoom.messages.unshift(
+            //room.isRoom = true;
+            // Usado para el mensaje inicial
+            room.messages.unshift(
                 {
                     senderId: null,
                     sender: null,
                     message: 'Welcome to the room.'
                 }
             );
-            context.commit('ADD_ROOM', newRoom);
+            context.commit('ADD_ROOM', room);
         },
         // Agrega cada mensaje a la conversacion correspondiente
         addMessage(context, messageResponse) {
-            // Se busca la conversacion a la que va dirigida el mensaje
-
-            // Comprobar si es una room o conversacion entre usuarios
             context.commit('ADD_MESSAGE', {
                 roomId: messageResponse.roomId,
                 message: {
@@ -151,9 +133,9 @@ export default new Vuex.Store({
                             token: response['data'].token
                         };
                         context.commit("SET_USER", user);
-                        context.commit("SET_READY", true);
                         context.dispatch("fetchRooms");
                         context.dispatch("openSocket");
+                        context.commit("SET_READY", true);
                     }
                 });
         },
