@@ -3,7 +3,6 @@
     <b-row v-if="!isLogged" id="login-component" class="full-screen-component">
       <login></login>
     </b-row>
-
     <b-row id="chat-component" class="full-screen-component">
       <b-row class="app-one">
         <b-col cols="3" class="side">
@@ -93,16 +92,7 @@ export default {
       div.style.left = "0%";
     },
   },
-  mounted() {
-    // Inicio de la aplicacion, carga de datos
-    this.unsubscribe = this.$store.subscribe((mutation, state) => {
-      if (mutation.type === "SET_READY") {
-        if (this.isLogged) {
-          this.unsubscribe;
-        }
-      }
-    });
-  },
+  mounted() {},
 };
 </script>
 <style>

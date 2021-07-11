@@ -119,24 +119,53 @@ export default new Vuex.Store({
                 }
             });
         },
-        login(context, { username, password }) {
+        // Despues de un login con exito, se inicializa la app
+        initApp(context, data) {
+            // data es un user en JSON
+            let user = {
+                id: data.id,
+                username: data.username,
+                email: data.email, // corregir
+                token: data.token
+            };
+            context.commit("SET_USER", user);
+            context.dispatch("fetchRooms");
+            context.dispatch("openSocket");
+            context.commit("SET_READY", true);
+        },
+        async login(context, { username, password }) {
             let data = { username: username, password: password };
-            axios.post("http://localhost:8888/api/users/login", data)
+            return await axios.post("http://localhost:8888/api/users/login", data)
                 .then(function (response) {
                     // Si el request tuvo exito (codigo 200)
                     if (response.status == 200) {
                         // Cargar los datos de usuario
-                        let user = {
-                            id: response['data'].id,
-                            username: response['data'].username,
-                            email: response['data'].email, // corregir
-                            token: response['data'].token
+                        return {
+                            status: response.status,
+                            data: response.data
                         };
-                        context.commit("SET_USER", user);
-                        context.dispatch("fetchRooms");
-                        context.dispatch("openSocket");
-                        context.commit("SET_READY", true);
                     }
+                }).catch(function (error) {
+                    return {
+                        status: error.response.status,
+                        message: error.response.data.message
+                    };
+                });
+        },
+        async register(context, { username, password, email }) {
+            let data = { username: username, password: password, email: email };
+            return await axios.post("http://localhost:8888/api/users/registration", data)
+                .then(function (response) {
+                    return {
+                        status: response.status,
+                        data: response.data
+                    };
+                })
+                .catch(function (error) {
+                    return {
+                        status: error.response.status,
+                        message: error.response.data.message
+                    };
                 });
         },
         openSocket(context) {
