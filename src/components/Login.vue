@@ -1,6 +1,6 @@
 <template>
   <b-container id="login" fluid class="p-0 wrapper">
-    <b-row align-v="center" class="justify-content-md-center h-100">
+    <b-row align-v="center" class="d-flex justify-content-center h-100">
       <b-col cols="5">
         <b-card :title="registerView ? 'Register' : 'Login'">
           <b-row v-if="registerView" class="form-group">
