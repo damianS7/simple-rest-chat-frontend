@@ -506,7 +506,7 @@ body {
     overflow: auto;
   }
   .room {
-    height: auto;
+    height: 100%;
   }
   .sideBar-rooms .sideBar-body {
     height: auto;
