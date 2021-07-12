@@ -169,7 +169,8 @@ export default new Vuex.Store({
                 });
         },
         openSocket(context) {
-            this.socket = new SockJS('http://localhost:8888/ws/connect');
+            this.socket = new SockJS('http://localhost:8888/ws/connect?token=' + context.state.appUser.token);
+
             this.stompClient = Stomp.over(this.socket);
             let dis = this;
 
